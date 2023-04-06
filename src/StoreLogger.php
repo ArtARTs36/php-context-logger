@@ -7,7 +7,7 @@ use ArtARTs36\ContextLogger\Contracts\ContextStore;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 
-final class StoreContextLogger implements ContextLogger
+final class StoreLogger implements ContextLogger
 {
     use LoggerTrait;
 

@@ -13,7 +13,7 @@ final class Logger
 {
     public static function wrapInMemory(LoggerInterface $logger): ContextLogger
     {
-        return new StoreContextLogger(
+        return new StoreLogger(
             $logger,
             new MemoryStore(),
         );
@@ -21,12 +21,12 @@ final class Logger
 
     public static function wrapInApcu(LoggerInterface $logger): ContextLogger
     {
-        return new StoreContextLogger($logger, ApcuStore::create());
+        return new StoreLogger($logger, ApcuStore::create());
     }
 
     public static function wrapWithoutContext(LoggerInterface $logger): ContextLogger
     {
-        return new StoreContextLogger($logger, new NullStore());
+        return new StoreLogger($logger, new NullStore());
     }
 
     public static function null(): ContextLogger
