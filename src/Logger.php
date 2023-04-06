@@ -1,0 +1,30 @@
+<?php
+
+namespace ArtARTs36\ContextLogger;
+
+use ArtARTs36\ContextLogger\Contracts\ContextLogger;
+use ArtARTs36\ContextLogger\Store\MemoryStore;
+use ArtARTs36\ContextLogger\Store\NullStore;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
+final class Logger
+{
+    public static function wrapInMemory(LoggerInterface $logger): ContextLogger
+    {
+        return new StoreContextLogger(
+            $logger,
+            new MemoryStore(),
+        );
+    }
+
+    public static function wrapWithoutContext(LoggerInterface $logger): ContextLogger
+    {
+        return new StoreContextLogger($logger, new NullStore());
+    }
+
+    public static function null(): ContextLogger
+    {
+        return self::wrapWithoutContext(new NullLogger());
+    }
+}
