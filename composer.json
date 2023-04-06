@@ -5,6 +5,9 @@
         "psr/log": "^3.0",
         "php": "^8.1"
     },
+    "require-dev": {
+        "ext-apcu": "*"
+    },
     "autoload": {
         "psr-4": {
             "ArtARTs36\\ContextLogger\\": "src/"

@@ -33,7 +33,9 @@ final class ApcuStore implements ContextStore
 
     public function all(): array
     {
-        return apcu_fetch(self::KEY);
+        $val = apcu_fetch(self::KEY);
+
+        return $val === false ? [] : $val;
     }
 
     public function clear(string $key): void
