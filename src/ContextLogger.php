@@ -2,7 +2,9 @@
 
 namespace ArtARTs36\ContextLogger;
 
-interface ContextLogger
+use Psr\Log\LoggerInterface;
+
+interface ContextLogger extends LoggerInterface
 {
     /**
      * Share log context.
