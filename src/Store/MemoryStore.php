@@ -4,7 +4,7 @@ namespace ArtARTs36\ContextLogger\Store;
 
 use ArtARTs36\ContextLogger\Contracts\ContextStore;
 
-class MemoryStore implements ContextStore
+final class MemoryStore implements ContextStore
 {
     public function __construct(
         private array $context = [],
