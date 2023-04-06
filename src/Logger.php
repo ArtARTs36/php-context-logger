@@ -3,34 +3,36 @@
 namespace ArtARTs36\ContextLogger;
 
 use ArtARTs36\ContextLogger\Contracts\ContextLogger;
-use ArtARTs36\ContextLogger\Store\ApcuStore;
-use ArtARTs36\ContextLogger\Store\MemoryStore;
-use ArtARTs36\ContextLogger\Store\NullStore;
+use ArtARTs36\ContextLogger\Contracts\ContextStore;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use Psr\Log\LoggerTrait;
 
-final class Logger
+final class Logger implements ContextLogger
 {
-    public static function wrapInMemory(LoggerInterface $logger): ContextLogger
-    {
-        return new StoreLogger(
-            $logger,
-            new MemoryStore(),
-        );
+    use LoggerTrait;
+
+    /** @var array<string, mixed> */
+    private array $context = [];
+
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly ContextStore $store,
+    ) {
+        //
     }
 
-    public static function wrapInApcu(LoggerInterface $logger): ContextLogger
+    public function shareContext(string $key, mixed $value): void
     {
-        return new StoreLogger($logger, ApcuStore::create());
+        $this->store->put($key, $value);
     }
 
-    public static function wrapWithoutContext(LoggerInterface $logger): ContextLogger
+    public function clearContext(string $key): void
     {
-        return new StoreLogger($logger, new NullStore());
+        $this->store->clear($key);
     }
 
-    public static function null(): ContextLogger
+    public function log($level, $message, array $context = []): void
     {
-        return self::wrapWithoutContext(new NullLogger());
+        $this->logger->log($level, $message, array_merge($this->store->all(), $context));
     }
 }
