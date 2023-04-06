@@ -1,6 +1,6 @@
 <?php
 
-namespace ArtARTs36\ContextLogger;
+namespace ArtARTs36\ContextLogger\Contracts;
 
 use Psr\Log\LoggerInterface;
 
