@@ -4,7 +4,7 @@ namespace ArtARTs36\ContextLogger\Store;
 
 use ArtARTs36\ContextLogger\Contracts\ContextStore;
 
-final class ApcuStore implements ContextStore
+final class ApcStore implements ContextStore
 {
     private const KEY = 'context_logger.shared_context';
 
@@ -15,8 +15,8 @@ final class ApcuStore implements ContextStore
 
     public static function create(): self
     {
-        if (! function_exists('apcu_enabled') || ! apcu_enabled()) {
-            throw new \RuntimeException('[ContextLogger] ApcuStore not available, because apcu not installed');
+        if (! extension_loaded('apc')) {
+            throw new \RuntimeException('[ContextLogger] ApcStore not available, because apc not installed');
         }
 
         return new self();
@@ -28,12 +28,12 @@ final class ApcuStore implements ContextStore
 
         $context[$key] = $value;
 
-        apcu_store(self::KEY, $context);
+        apc_store(self::KEY, $context);
     }
 
     public function all(): array
     {
-        $val = apcu_fetch(self::KEY);
+        $val = apc_fetch(self::KEY);
 
         return $val === false ? [] : $val;
     }

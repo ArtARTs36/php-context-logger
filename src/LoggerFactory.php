@@ -3,6 +3,7 @@
 namespace ArtARTs36\ContextLogger;
 
 use ArtARTs36\ContextLogger\Contracts\ContextLogger;
+use ArtARTs36\ContextLogger\Store\ApcStore;
 use ArtARTs36\ContextLogger\Store\ApcuStore;
 use ArtARTs36\ContextLogger\Store\MemoryStore;
 use ArtARTs36\ContextLogger\Store\NullStore;
@@ -22,6 +23,11 @@ final class LoggerFactory
     public static function wrapInApcu(LoggerInterface $logger): ContextLogger
     {
         return new Logger($logger, ApcuStore::create());
+    }
+
+    public static function wrapInApc(LoggerInterface $logger): ContextLogger
+    {
+        return new Logger($logger, ApcStore::create());
     }
 
     public static function wrapWithoutContext(LoggerInterface $logger): ContextLogger
