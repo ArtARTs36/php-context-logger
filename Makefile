@@ -1,3 +1,4 @@
 check:
-	composer test
+	composer lint
 	composer stat-analyse
+	composer test

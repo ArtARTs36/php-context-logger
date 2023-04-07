@@ -4,6 +4,9 @@ namespace ArtARTs36\ContextLogger\Contracts;
 
 use Psr\Log\LoggerInterface;
 
+/**
+ * Interface for Context Logger.
+ */
 interface ContextLogger extends LoggerInterface
 {
     /**

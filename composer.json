@@ -8,7 +8,8 @@
     "require-dev": {
         "ext-apcu": "*",
         "phpunit/phpunit": "^10.0",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "artarts36/php-cs-fixer-good-fixers": "^0.1.2"
     },
     "autoload": {
         "psr-4": {
@@ -27,6 +28,9 @@
         }
     ],
     "scripts": {
+        "lint": [
+            "php-cs-fixer fix --dry-run --verbose --diff --ansi"
+        ],
         "test": [
             "./vendor/bin/phpunit -v --colors=always --configuration phpunit.xml"
         ],
