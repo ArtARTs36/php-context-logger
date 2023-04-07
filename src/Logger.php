@@ -11,9 +11,6 @@ final class Logger implements ContextLogger
 {
     use LoggerTrait;
 
-    /** @var array<string, mixed> */
-    private array $context = [];
-
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly ContextStore $store,

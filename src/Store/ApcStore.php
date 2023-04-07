@@ -4,6 +4,9 @@ namespace ArtARTs36\ContextLogger\Store;
 
 use ArtARTs36\ContextLogger\Contracts\ContextStore;
 
+/**
+ * @phpstan-import-type Context from ContextStore
+ */
 final class ApcStore implements ContextStore
 {
     private const KEY = 'context_logger.shared_context';
@@ -38,7 +41,15 @@ final class ApcStore implements ContextStore
     {
         $val = apc_fetch(self::KEY);
 
-        return $val === false ? [] : $val;
+        if ($val === false) {
+            return [];
+        }
+
+        if (! is_array($val)) {
+            throw new FetchContextException(sprintf('apc_fetch returns no array value by key "%s"', self::KEY));
+        }
+
+        return $val;
     }
 
     public function clear(string $key): void
@@ -50,6 +61,9 @@ final class ApcStore implements ContextStore
         $this->set($context);
     }
 
+    /**
+     * @param Context $context
+     */
     private function set(array $context): void
     {
         apcu_store(self::KEY, $context);

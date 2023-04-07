@@ -7,7 +7,8 @@
     },
     "require-dev": {
         "ext-apcu": "*",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10"
     },
     "autoload": {
         "psr-4": {
@@ -28,6 +29,9 @@
     "scripts": {
         "test": [
             "./vendor/bin/phpunit -v --colors=always --configuration phpunit.xml"
+        ],
+        "stat-analyse": [
+            "./vendor/bin/phpstan analyse src"
         ]
     }
 }
