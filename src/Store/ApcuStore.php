@@ -47,4 +47,9 @@ final class ApcuStore implements ContextStore
 
         unset($context[$key]);
     }
+
+    public function truncate(): void
+    {
+        apcu_delete(self::KEY);
+    }
 }
