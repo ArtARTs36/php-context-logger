@@ -13,10 +13,13 @@ final class ApcStore implements ContextStore
         //
     }
 
+    /**
+     * @throws StoreUnavailableException
+     */
     public static function create(): self
     {
         if (! extension_loaded('apc')) {
-            throw new \RuntimeException('[ContextLogger] ApcStore not available, because apc not installed');
+            throw new StoreUnavailableException('[ContextLogger] ApcStore not available, because apc not installed');
         }
 
         return new self();

@@ -13,10 +13,13 @@ final class ApcuStore implements ContextStore
         //
     }
 
+    /**
+     * @throws StoreUnavailableException
+     */
     public static function create(): self
     {
         if (! function_exists('apcu_enabled') || ! apcu_enabled()) {
-            throw new \RuntimeException('[ContextLogger] ApcuStore not available, because apcu not installed');
+            throw new StoreUnavailableException('[ContextLogger] ApcuStore not available, because apcu not installed');
         }
 
         return new self();
