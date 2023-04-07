@@ -31,7 +31,7 @@ final class ApcStore implements ContextStore
 
         $context[$key] = $value;
 
-        apc_store(self::KEY, $context);
+        $this->set($context);
     }
 
     public function all(): array
@@ -46,5 +46,12 @@ final class ApcStore implements ContextStore
         $context = $this->all();
 
         unset($context[$key]);
+
+        $this->set($context);
+    }
+
+    private function set(array $context): void
+    {
+        apcu_store(self::KEY, $context);
     }
 }

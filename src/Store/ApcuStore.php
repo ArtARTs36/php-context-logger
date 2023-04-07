@@ -16,13 +16,24 @@ final class ApcuStore implements ContextStore
     /**
      * @throws StoreUnavailableException
      */
-    public static function create(): self
+    public static function create(array $initial = []): self
     {
         if (! function_exists('apcu_enabled') || ! apcu_enabled()) {
             throw new StoreUnavailableException('[ContextLogger] ApcuStore not available, because apcu not installed');
         }
 
-        return new self();
+        $instance = new self();
+        $instance->putMany($initial);
+
+        return $instance;
+    }
+
+    public function putMany(array $values): void
+    {
+        $context = $this->all();
+        $context = array_merge($context, $values);
+
+        $this->set($context);
     }
 
     public function put(string $key, mixed $value): void
@@ -31,7 +42,7 @@ final class ApcuStore implements ContextStore
 
         $context[$key] = $value;
 
-        apcu_store(self::KEY, $context);
+        $this->set($context);
     }
 
     public function all(): array
@@ -46,10 +57,17 @@ final class ApcuStore implements ContextStore
         $context = $this->all();
 
         unset($context[$key]);
+
+        $this->set($context);
     }
 
     public function truncate(): void
     {
         apcu_delete(self::KEY);
+    }
+
+    private function set(array $context): void
+    {
+        apcu_store(self::KEY, $context);
     }
 }
