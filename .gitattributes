@@ -5,3 +5,4 @@ phpunit.xml          export-ignore
 phpstan.neon         export-ignore
 Makefile             export-ignore
 .php-cs-fixer.php    export-ignore
+.github              export-ignore

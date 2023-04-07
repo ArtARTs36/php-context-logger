@@ -1,0 +1,31 @@
+name: Testing
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  testing:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nanasess/setup-php@master
+        with:
+          php-version: '8.1'
+          extensions: apcu
+          ini-values: apc.enable_cli=1
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: Lint
+        run: composer lint
+
+      - name: Stat Analyse
+        run: composer stat-analyse
+
+      - name: Tests
+        run: composer test
