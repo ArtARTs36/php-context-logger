@@ -6,7 +6,7 @@ This package provides wrapper to **psr/log** for sharing context between differe
 
 ### Memory Store
 
-Memory Store could be useful for sharing context in single web request.
+Memory Store could be useful for sharing context in single web request or single console command running.
 
 Creating an logger instance:
 
@@ -32,6 +32,21 @@ $logger = \ArtARTs36\ContextLogger\LoggerFactory::wrapInApcu(new class () extend
         var_dump($level, $message, $context);
     }
 });
+```
+
+### File Store
+
+File Store could be useful for sharing context for different web requests or different console command runs.
+
+Creating an logger instance:
+
+```php
+$logger = \ArtARTs36\ContextLogger\LoggerFactory::wrapInFile(new class () extends \Psr\Log\AbstractLogger {
+    public function log($level, \Stringable|string $message, array $context = []): void
+    {
+        var_dump($level, $message, $context);
+    }
+}, '/path/to/file.txt');
 ```
 
 ### Null Store

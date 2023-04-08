@@ -3,8 +3,8 @@
 namespace ArtARTs36\ContextLogger;
 
 use ArtARTs36\ContextLogger\Contracts\ContextLogger;
-use ArtARTs36\ContextLogger\Store\ApcStore;
 use ArtARTs36\ContextLogger\Store\ApcuStore;
+use ArtARTs36\ContextLogger\Store\FileStore;
 use ArtARTs36\ContextLogger\Store\MemoryStore;
 use ArtARTs36\ContextLogger\Store\NullStore;
 use ArtARTs36\ContextLogger\Store\StoreUnavailableException;
@@ -29,12 +29,9 @@ final class LoggerFactory
         return new Logger($logger, ApcuStore::create());
     }
 
-    /**
-     * @throws StoreUnavailableException
-     */
-    public static function wrapInApc(LoggerInterface $logger): ContextLogger
+    public static function wrapInFile(LoggerInterface $logger, string $filepath): ContextLogger
     {
-        return new Logger($logger, ApcStore::create());
+        return new Logger($logger, FileStore::create($filepath));
     }
 
     public static function wrapWithoutContext(LoggerInterface $logger): ContextLogger
