@@ -3,6 +3,7 @@
 namespace ArtARTs36\ContextLogger\Store;
 
 use ArtARTs36\ContextLogger\Contracts\ContextStore;
+use ArtARTs36\ContextLogger\Contracts\LockableFile;
 use ArtARTs36\ContextLogger\Store\File\FileLockNotAcquiredException;
 use ArtARTs36\ContextLogger\Store\File\FileNotFoundException;
 use ArtARTs36\ContextLogger\Store\File\LockFile;
@@ -10,7 +11,7 @@ use ArtARTs36\ContextLogger\Store\File\LockFile;
 final class FileStore implements ContextStore
 {
     public function __construct(
-        private readonly LockFile $file,
+        private readonly LockableFile $file,
     ) {
         //
     }
@@ -57,6 +58,10 @@ final class FileStore implements ContextStore
     public function clear(string $key): void
     {
         $context = $this->all();
+
+        if (empty($context)) {
+            return;
+        }
 
         unset($context[$key]);
 

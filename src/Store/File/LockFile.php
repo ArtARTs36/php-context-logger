@@ -2,10 +2,12 @@
 
 namespace ArtARTs36\ContextLogger\Store\File;
 
+use ArtARTs36\ContextLogger\Contracts\LockableFile;
+
 /**
  * @phpstan-type FileResource = resource
  */
-class LockFile
+class LockFile implements LockableFile
 {
     /** @var FileResource */
     private $fileHandle;
@@ -67,12 +69,31 @@ class LockFile
         }
     }
 
+    public function delete(): void
+    {
+        unlink($this->path);
+    }
+
     /**
      * @throws FileNotFoundException
      */
     private function open(): void
     {
+        $errorMsg = null;
+
+        set_error_handler(function (int $l, string $message, string $el, int $ec) use (&$errorMsg) {
+            $errorMsg = $message;
+
+            return true;
+        });
+
         $handle = fopen($this->path, 'rb');
+
+        restore_error_handler();
+
+        if ($errorMsg !== null) {
+            throw new FileNotFoundException($errorMsg);
+        }
 
         if ($handle === false) {
             throw new FileNotFoundException(sprintf('File with path "%s" not found', $this->path));
@@ -83,7 +104,9 @@ class LockFile
 
     private function close(): void
     {
-        fclose($this->fileHandle);
+        if (is_resource($this->fileHandle)) {
+            fclose($this->fileHandle);
+        }
     }
 
     /**
