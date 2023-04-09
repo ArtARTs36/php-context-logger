@@ -59,4 +59,30 @@ final class FileStoreTest extends TestCase
             'k1' => 'v1',
         ]));
     }
+
+    /**
+     * @covers \ArtARTs36\ContextLogger\Store\FileStore::all
+     */
+    public function testAllOnFileOnFileNonExists(): void
+    {
+        $file = new MockLockableFile();
+
+        $store = new FileStore($file);
+
+        self::assertEquals([], $store->all());
+    }
+
+    /**
+     * @covers \ArtARTs36\ContextLogger\Store\FileStore::all
+     */
+    public function testAll(): void
+    {
+        $file = new MockLockableFile(exists: true, content: serialize([
+            'k1' => 'v1',
+        ]));
+
+        $store = new FileStore($file);
+
+        self::assertEquals(['k1' => 'v1'], $store->all());
+    }
 }
