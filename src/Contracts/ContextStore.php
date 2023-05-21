@@ -26,4 +26,9 @@ interface ContextStore
      * Clear context value by key.
      */
     public function clear(string $key): void;
+
+    /**
+     * Flush context.
+     */
+    public function flush(): void;
 }

@@ -20,4 +20,9 @@ final class NullStore implements ContextStore
     {
         //
     }
+
+    public function flush(): void
+    {
+        //
+    }
 }

@@ -32,4 +32,9 @@ final class MemoryStore implements ContextStore
     {
         return $this->context;
     }
+
+    public function flush(): void
+    {
+        $this->context = [];
+    }
 }

@@ -63,6 +63,6 @@ final class ApcuStoreTest extends TestCase
 
     protected function tearDown(): void
     {
-        ApcuStore::create()->truncate();
+        ApcuStore::create()->flush();
     }
 }

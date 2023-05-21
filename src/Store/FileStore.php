@@ -8,6 +8,9 @@ use ArtARTs36\ContextLogger\Store\File\FileLockNotAcquiredException;
 use ArtARTs36\ContextLogger\Store\File\FileNotFoundException;
 use ArtARTs36\ContextLogger\Store\File\LockFile;
 
+/**
+ * @phpstan-import-type Context from ContextStore
+ */
 final class FileStore implements ContextStore
 {
     public function __construct(
@@ -65,6 +68,19 @@ final class FileStore implements ContextStore
 
         unset($context[$key]);
 
+        $this->write($context);
+    }
+
+    public function flush(): void
+    {
+        $this->write([]);
+    }
+
+    /**
+     * @param Context $context
+     */
+    private function write(array $context): void
+    {
         $this->file->write(serialize($context));
     }
 }

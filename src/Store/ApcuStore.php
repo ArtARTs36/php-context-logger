@@ -76,7 +76,7 @@ final class ApcuStore implements ContextStore
         $this->set($context);
     }
 
-    public function truncate(): void
+    public function flush(): void
     {
         apcu_delete(self::KEY);
     }
