@@ -32,7 +32,7 @@
             "php-cs-fixer fix --dry-run --verbose --diff --ansi"
         ],
         "test": [
-            "./vendor/bin/phpunit -v --colors=always --configuration phpunit.xml"
+            "./vendor/bin/phpunit --colors=always --configuration phpunit.xml"
         ],
         "stat-analyse": [
             "./vendor/bin/phpstan analyse src"
