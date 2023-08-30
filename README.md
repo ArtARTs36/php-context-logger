@@ -1,5 +1,9 @@
 # Context Logger
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Latest Version](https://img.shields.io/packagist/v/artarts36/php-context-logger)
+![Total Downloads](https://poser.pugx.org/artarts36/php-context-logger/d/total.svg)
+
 This package provides wrapper to **psr/log** for sharing context between different logs.
 
 ## Implemented stores
